@@ -1,0 +1,253 @@
+{
+  "mergedAt": "2026-09-12T02:27:35.252Z",
+  "before": {
+    "total": 137,
+    "concept": 109,
+    "book": 20,
+    "categories": 11
+  },
+  "newBooks": {
+    "added": [
+      {
+        "title": "AI 3.0",
+        "entries": 7
+      },
+      {
+        "title": "大模型浪潮",
+        "entries": 8
+      },
+      {
+        "title": "人人都是产品经理",
+        "entries": 6
+      },
+      {
+        "title": "启示录：打造用户喜爱的产品",
+        "entries": 5
+      },
+      {
+        "title": "用户体验要素",
+        "entries": 9
+      },
+      {
+        "title": "点石成金",
+        "entries": 6
+      },
+      {
+        "title": "精益创业",
+        "entries": 5
+      },
+      {
+        "title": "设计心理学",
+        "entries": 8
+      },
+      {
+        "title": "增长黑客",
+        "entries": 4
+      },
+      {
+        "title": "AI产品经理手册",
+        "entries": 9
+      },
+      {
+        "title": "AI产品经理入门推荐书单 · 10本（总览）",
+        "entries": 1
+      }
+    ],
+    "skipped": []
+  },
+  "newConcepts": {
+    "added": [
+      {
+        "name": "用户体验五层模型",
+        "category": "用户体验与设计",
+        "source": "用户体验要素"
+      },
+      {
+        "name": "战略层",
+        "category": "用户体验与设计",
+        "source": "用户体验要素"
+      },
+      {
+        "name": "范围层",
+        "category": "用户体验与设计",
+        "source": "用户体验要素"
+      },
+      {
+        "name": "结构层 / 框架层 / 表现层",
+        "category": "用户体验与设计",
+        "source": "用户体验要素"
+      },
+      {
+        "name": "好产品的四个条件",
+        "category": "产品方法论",
+        "source": "启示录：打造用户喜爱的产品"
+      },
+      {
+        "name": "产品发现",
+        "category": "产品方法论",
+        "source": "启示录：打造用户喜爱的产品"
+      },
+      {
+        "name": "产品经理的两大职责",
+        "category": "产品方法论",
+        "source": "启示录：打造用户喜爱的产品"
+      },
+      {
+        "name": "需求采集的四种方法",
+        "category": "需求分析",
+        "source": "人人都是产品经理"
+      },
+      {
+        "name": "用户想要的 vs 用户需要的",
+        "category": "需求分析",
+        "source": "人人都是产品经理"
+      },
+      {
+        "name": "产品经理是\"无授权领导\"",
+        "category": "职业素养",
+        "source": "人人都是产品经理"
+      },
+      {
+        "name": "产品思维",
+        "category": "产品方法论",
+        "source": "人人都是产品经理"
+      },
+      {
+        "name": "意符 Affordance",
+        "category": "设计原则",
+        "source": "设计心理学"
+      },
+      {
+        "name": "映射 Mapping",
+        "category": "设计原则",
+        "source": "设计心理学"
+      },
+      {
+        "name": "反馈 Feedback",
+        "category": "设计原则",
+        "source": "设计心理学"
+      },
+      {
+        "name": "约束 Constraints",
+        "category": "设计原则",
+        "source": "设计心理学"
+      },
+      {
+        "name": "失误与错误的区分",
+        "category": "设计原则",
+        "source": "设计心理学"
+      },
+      {
+        "name": "别让我思考",
+        "category": "设计原则",
+        "source": "点石成金"
+      },
+      {
+        "name": "用户是扫描不是阅读",
+        "category": "设计原则",
+        "source": "点石成金"
+      },
+      {
+        "name": "满意即可的选择策略",
+        "category": "设计原则",
+        "source": "点石成金"
+      },
+      {
+        "name": "可用性测试的轻量做法",
+        "category": "需求分析",
+        "source": "点石成金"
+      },
+      {
+        "name": "开发-衡量-学习循环",
+        "category": "产品方法论",
+        "source": "精益创业"
+      },
+      {
+        "name": "转型还是坚持",
+        "category": "产品方法论",
+        "source": "精益创业"
+      },
+      {
+        "name": "小批量优于大批量",
+        "category": "产品方法论",
+        "source": "精益创业"
+      },
+      {
+        "name": "增长的三大引擎",
+        "category": "增长运营",
+        "source": "精益创业"
+      },
+      {
+        "name": "AARRR 增长漏斗",
+        "category": "增长运营",
+        "source": "增长黑客"
+      },
+      {
+        "name": "啊哈时刻",
+        "category": "增长运营",
+        "source": "增长黑客"
+      },
+      {
+        "name": "增长实验流程",
+        "category": "增长运营",
+        "source": "增长黑客"
+      },
+      {
+        "name": "概率性输出",
+        "category": "AI产品专项",
+        "source": "AI产品经理手册"
+      },
+      {
+        "name": "AI 可行性判断",
+        "category": "AI产品专项",
+        "source": "AI产品经理手册"
+      },
+      {
+        "name": "AI 产品的数据策略",
+        "category": "AI产品专项",
+        "source": "AI产品经理手册"
+      },
+      {
+        "name": "AI 产品的伦理与风险",
+        "category": "AI产品专项",
+        "source": "AI产品经理手册"
+      },
+      {
+        "name": "AI 原生应用 vs AI 辅助应用",
+        "category": "行业与趋势",
+        "source": "大模型浪潮"
+      },
+      {
+        "name": "大模型规模化落地路径",
+        "category": "行业与趋势",
+        "source": "大模型浪潮"
+      },
+      {
+        "name": "AI 的三种范式与能力边界",
+        "category": "行业与趋势",
+        "source": "AI 3.0"
+      },
+      {
+        "name": "幻觉的成因与产品应对",
+        "category": "AI产品专项",
+        "source": "AI 3.0"
+      }
+    ],
+    "mergedIntoExisting": [
+      {
+        "name": "MVP 最小可行产品",
+        "into": "MVP",
+        "reason": "名称包含关系"
+      }
+    ],
+    "skippedDuplicate": [],
+    "suspected": []
+  },
+  "after": {
+    "total": 240,
+    "concept": 144,
+    "book": 88,
+    "categories": 23,
+    "mustLearn": 38
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "aipm-study-workbench",
+  "version": "1.0.0",
+  "description": "AIPM 学习工作台 —— 面向零基础转行者的 AI 产品经理学习工作台。单文件 Node 后端 + 原生前端 + 本地向量混合检索 + DeepSeek 对话。",
+  "main": "server.js",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build:kb": "node build_kb.js",
+    "build:emb": "node build_embeddings.js",
+    "enrich": "node enrich_kb.js",
+    "patch:bookcat": "node patch_book_categories.js",
+    "verify": "node tools/verify_all.mjs",
+    "verify:frontend": "node tools/verify_frontend.mjs",
+    "verify:dom": "node tools/verify_theme_contract.mjs",
+    "verify:ui": "node tools/verify_ui_e2e.mjs",
+    "verify:ui:ai": "node tools/verify_ui_e2e.mjs --ai",
+    "verify:subj": "node tools/verify_subj_quality.mjs",
+    "verify:responsive": "node tools/verify_responsive.mjs",
+    "verify:theme": "node tools/verify_theme.js",
+    "verify:new": "node tools/verify_new_endpoints.mjs",
+    "verify:multiuser": "node tools/verify_multiuser.mjs",
+    "verify:assets": "node tools/verify_assets.mjs"
+  },
+  "keywords": [
+    "ai-product-manager",
+    "learning-workbench",
+    "rag",
+    "local-embedding",
+    "deepseek"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@xenova/transformers": "^2.17.2"
+  }
+}

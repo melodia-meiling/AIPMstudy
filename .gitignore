@@ -1,0 +1,75 @@
+# =============================================================================
+# AIPM 学习工作台 · Git 忽略规则
+# =============================================================================
+
+# ---- 依赖 ----
+node_modules/
+.pnpm-store/
+.yarn/
+
+# ---- 环境变量与密钥（绝不提交）----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+credentials.json
+
+# ---- 运行期产生的个人学习数据 ----
+# 这些是使用者自己的笔记/进度/错题/目标/作品，属于本地数据，不应进仓库。
+# ⚠️ 服务启动时会自动创建下面这 10 个文件（server.js 的 STORE_FILES）。
+#    新增 store 时**必须**同步加到这里，否则跑过一次工作台之后
+#    `git add .` 就会把你的个人数据一起提交上去。
+# 注意：不忽略整个 data/ 目录！知识库与向量索引（kb.json / index.json /
+# embeddings.json）是应用资产，必须随项目一起部署。
+data/notes.json
+data/learned.json
+data/enrich.json
+data/newknowledge.json
+data/quiz.json
+data/wrong.json
+data/settings.json
+data/goals.json
+data/portfolio.json
+data/activity.json
+
+# ---- 备份与临时文件 ----
+# 内容治理过程中会产生大量 .bak / .tmp / 对比目录，都不进仓库
+data/*.bak*
+data/*.tmp
+data/data-new/
+data/backup-*/
+# 日志：不加路径前缀，任意层级都挡（含项目根目录，例如重定向出来的 server.log）
+*.log
+*.bak
+*.bak-*
+*.tmp
+*~
+
+# ---- 本地向量模型权重 ----
+# 约 100MB，超过 GitHub 单文件 100MB 上限会推送失败。
+# 若你的平台需要在构建时下载模型，请保留此行忽略；
+# 若要通过仓库分发模型，请用 Git LFS：
+#   git lfs track "models/**/*.onnx"
+#   （然后在 .gitattributes 里保留 LFS 规则，并删掉下面这两行）
+models/**/*.onnx
+models/**/tokenizer.json
+
+# ---- 编辑器 / 系统 ----
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- 日志与调试产物 ----
+npm-debug.log*
+yarn-error.log*
+*.pid
+*.seed
+_recon_*.js
+_apply_*.js
+_rebuild_index.cjs
+_smoke.cjs

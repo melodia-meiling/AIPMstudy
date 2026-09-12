@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AIPM 学习工作台 · 桌面端仪表盘</title>
+<meta name="viewport" content="width=1440">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  // 把设计规范固化成 Tailwind token，避免样式里散落魔法值
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          cream:    '#F4F1EB',   // 页面背景
+          milk:     '#F9F6F1',   // 卡片底色
+          orange:   { DEFAULT: '#E89B68', soft: '#F2D188' },  // 暖橙 / 柔黄
+          brick:    '#D87060',   // 砖红
+          ink:      '#333333',   // 主文字
+          muted:    '#777777',   // 次要文字
+          hair:     '#EDE7DD',   // 极淡分隔线
+          slate:    '#5A5A5F',   // 深灰（气泡 / 进度）
+        },
+        fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        borderRadius: { card: '18px' },
+        spacing: { gutter: '24px' },
+        boxShadow: {
+          // 极淡柔和阴影：两层大范围低透明度，不用厚重黑阴影
+          soft: '0 1px 2px rgba(51,51,51,.03), 0 8px 24px rgba(51,51,51,.045)',
+          softer: '0 1px 2px rgba(51,51,51,.025), 0 4px 14px rgba(51,51,51,.035)',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { -webkit-font-smoothing: antialiased; }
+  body { font-family: Inter, system-ui, sans-serif; }
+  /* 浏览器滚动条也做浅色处理，避免破坏奶油风 */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-thumb { background: #E4DCD0; border-radius: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+</style>
+</head>
+
+<body class="bg-cream text-ink font-sans">
+<div class="mx-auto flex min-h-screen w-[1440px]">
+
+  <!-- ==================== 左侧固定侧边导航 ==================== -->
+  <aside class="flex w-[248px] shrink-0 flex-col bg-cream px-6 py-7">
+
+    <!-- Logo -->
+    <div class="flex items-center gap-3">
+      <div class="flex h-10 w-10 items-center justify-center rounded-[13px] bg-gradient-to-br from-orange to-orange-soft shadow-softer">
+        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="4"/>
+        </svg>
+      </div>
+      <span class="text-[17px] font-bold tracking-tight">AIPM工作台</span>
+    </div>
+
+    <!-- 导航菜单 -->
+    <nav class="mt-10 flex flex-col gap-1.5">
+      <!-- 当前页：暖橙浅底高亮 -->
+      <a href="#" class="flex items-center gap-3 rounded-[13px] bg-orange/14 px-3.5 py-2.5 text-[14px] font-semibold text-ink">
+        <svg viewBox="0 0 24 24" class="h-[18px] w-[18px] text-orange" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/>
+          <rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/>
+        </svg>
+        仪表盘主页
+      </a>
+
+      <a href="#" class="flex items-center gap-3 rounded-[13px] px-3.5 py-2.5 text-[14px] font-medium text-muted transition hover:bg-black/[.035] hover:text-ink">
+        <svg viewBox="0 0 24 24" class="h-[18px] w-[18px]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 5.5A2.5 2.5 0 016.5 3H19v15H6.5A2.5 2.5 0 004 20.5z"/><path d="M8 7h7M8 11h5"/>
+        </svg>
+        知识库文档
+      </a>
+
+      <a href="#" class="flex items-center gap-3 rounded-[13px] px-3.5 py-2.5 text-[14px] font-medium text-muted transition hover:bg-black/[.035] hover:text-ink">
+        <svg viewBox="0 0 24 24" class="h-[18px] w-[18px]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 3v5h5"/><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2z"/><path d="M8 13h8M8 17h5"/>
+        </svg>
+        刷题中心
+      </a>
+
+      <a href="#" class="flex items-center gap-3 rounded-[13px] px-3.5 py-2.5 text-[14px] font-medium text-muted transition hover:bg-black/[.035] hover:text-ink">
+        <svg viewBox="0 0 24 24" class="h-[18px] w-[18px]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/>
+        </svg>
+        API实验
+      </a>
+
+      <a href="#" class="flex items-center gap-3 rounded-[13px] px-3.5 py-2.5 text-[14px] font-medium text-muted transition hover:bg-black/[.035] hover:text-ink">
+        <svg viewBox="0 0 24 24" class="h-[18px] w-[18px]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/>
+        </svg>
+        任务日历
+      </a>
+
+      <a href="#" class="flex items-center gap-3 rounded-[13px] px-3.5 py-2.5 text-[14px] font-medium text-muted transition hover:bg-black/[.035] hover:text-ink">
+        <svg viewBox="0 0 24 24" class="h-[18px] w-[18px]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8 7V5.5A2.5 2.5 0 0110.5 3h3A2.5 2.5 0 0116 5.5V7"/>
+        </svg>
+        项目作品集
+      </a>
+
+      <a href="#" class="flex items-center gap-3 rounded-[13px] px-3.5 py-2.5 text-[14px] font-medium text-muted transition hover:bg-black/[.035] hover:text-ink">
+        <svg viewBox="0 0 24 24" class="h-[18px] w-[18px]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-2.9 1.2 2 2 0 11-4 0 1.7 1.7 0 00-2.9-1.2l-.1.1a2 2 0 11-2.8-2.8l.1-.1A1.7 1.7 0 003 15a2 2 0 010-4 1.7 1.7 0 001.2-2.9l-.1-.1a2 2 0 112.8-2.8l.1.1A1.7 1.7 0 0010 4.6a2 2 0 014 0 1.7 1.7 0 002.9 1.2l.1-.1a2 2 0 112.8 2.8l-.1.1A1.7 1.7 0 0021 11a2 2 0 010 4z"/>
+        </svg>
+        设置
+      </a>
+    </nav>
+
+    <!-- 底部用户卡片 -->
+    <div class="mt-auto">
+      <div class="flex items-center gap-3 rounded-[15px] bg-milk px-3.5 py-3 shadow-softer">
+        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-soft to-orange text-[13px] font-bold text-white">
+          美
+        </div>
+        <div class="min-w-0 flex-1">
+          <p class="truncate text-[13px] font-semibold leading-tight">美玲</p>
+          <p class="truncate text-[11px] leading-tight text-muted">转行 AI 产品经理</p>
+        </div>
+        <svg viewBox="0 0 24 24" class="h-4 w-4 shrink-0 text-muted" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 6l6 6-6 6"/>
+        </svg>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==================== 右侧主内容区 ==================== -->
+  <main class="min-w-0 flex-1 py-7 pr-7">
+
+    <!-- 顶部栏 -->
+    <header class="mb-6 flex items-start justify-between">
+      <div>
+        <h1 class="text-[26px] font-bold leading-tight tracking-tight">Hi！美玲</h1>
+        <p class="mt-1 text-[13px] text-muted">今天继续AI产品学习</p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- 搜索框 -->
+        <div class="flex h-11 w-[260px] items-center gap-2.5 rounded-[14px] bg-milk px-4 shadow-softer">
+          <svg viewBox="0 0 24 24" class="h-[17px] w-[17px] shrink-0 text-muted" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/>
+          </svg>
+          <input type="text" placeholder="搜索课程、案例、练习"
+                 class="w-full bg-transparent text-[13px] text-ink placeholder:text-muted focus:outline-none">
+        </div>
+        <!-- Upgrade 按钮 -->
+        <button class="h-11 rounded-[14px] bg-slate px-6 text-[13.5px] font-semibold text-white shadow-softer transition hover:bg-[#4A4A50]">
+          Upgrade
+        </button>
+      </div>
+    </header>
+
+    <!-- ==================== 6 张卡片网格 ==================== -->
+    <!--
+      布局：12 列栅格，卡片间距 24px（gap-gutter）
+        第一行：卡片1 跨 2 列（学习总览）｜卡片2 占 1 列（学习日历）
+        第二行：卡片3 占 1 列（今日目标）｜卡片4 占 1 列（我的练习）
+        第三行：卡片5 占 1 列（成长计划）｜卡片6 占 1 列（AI 学习助手）
+      卡片1 是"宽卡"，正好 2 列；其余 5 张各占 1 列。
+    -->
+    <div class="grid grid-cols-2 gap-gutter">
+
+      <!-- ---------- 卡片1：学习总览（气泡图，占 2 列宽） ---------- -->
+      <section class="col-span-2 rounded-card bg-milk p-6 shadow-soft">
+        <div class="flex items-start justify-between">
+          <h2 class="text-[15px] font-semibold tracking-tight">Learning Results for Today</h2>
+          <span class="rounded-full bg-orange/12 px-2.5 py-1 text-[11px] font-semibold text-orange">今日</span>
+        </div>
+
+        <!-- 气泡图：柔和渐变 + 朦胧柔边。宽卡布局 —— 左侧气泡群，右侧数值摘要 -->
+        <div class="relative mt-2 h-[190px]" role="img"
+             aria-label="今日学习总览气泡图：累计学习时长 2 小时 48 分、练习完成 14 个、阅读文档 27 页">
+          <div class="absolute inset-0 rounded-[16px] bg-gradient-to-br from-orange-soft/12 to-orange/5"></div>
+
+          <!-- 左侧：气泡群 -->
+          <!-- 主气泡：累计学习时长（柔黄渐变） -->
+          <div class="absolute left-[52px] top-[24px] flex h-[126px] w-[126px] items-center justify-center rounded-full bg-gradient-to-br from-orange-soft to-[#EFC470] opacity-95 blur-[0.4px]">
+            <div class="text-center">
+              <p class="text-[11px] font-medium text-ink/60">学习时长</p>
+              <p class="text-[25px] font-bold leading-none text-ink">2h48m</p>
+            </div>
+          </div>
+
+          <!-- 次气泡：练习完成数量（砖红渐变） -->
+          <div class="absolute left-[196px] top-[26px] flex h-[96px] w-[96px] items-center justify-center rounded-full bg-gradient-to-br from-brick to-[#E08A78] opacity-90 blur-[0.4px]">
+            <div class="text-center">
+              <p class="text-[25px] font-bold leading-none text-white">14</p>
+              <p class="text-[10px] font-medium text-white/75">练习</p>
+            </div>
+          </div>
+
+          <!-- 深灰气泡：阅读文档页数 -->
+          <div class="absolute left-[238px] top-[118px] flex h-[68px] w-[68px] items-center justify-center rounded-full bg-gradient-to-br from-slate to-[#72727A] opacity-85 blur-[0.4px]">
+            <div class="text-center">
+              <p class="text-[18px] font-bold leading-none text-white">27</p>
+              <p class="text-[9px] font-medium text-white/70">页</p>
+            </div>
+          </div>
+
+          <!-- 装饰性朦胧小球，增加气泡层次与柔边感 -->
+          <div class="absolute left-[18px] top-[112px] h-[30px] w-[30px] rounded-full bg-orange-soft/40 blur-[2px]"></div>
+          <div class="absolute left-[322px] top-[46px] h-[24px] w-[24px] rounded-full bg-brick/28 blur-[2px]"></div>
+          <div class="absolute left-[168px] top-[146px] h-[17px] w-[17px] rounded-full bg-slate/20 blur-[2px]"></div>
+          <div class="absolute left-[420px] top-[140px] h-[38px] w-[38px] rounded-full bg-orange/12 blur-[3px]"></div>
+
+          <!-- 右侧：数值摘要，把宽卡的空间用起来 -->
+          <div class="absolute right-8 top-1/2 w-[300px] -translate-y-1/2 space-y-2.5">
+            <div class="flex items-center justify-between rounded-[13px] bg-white/55 px-4 py-3">
+              <span class="flex items-center gap-2 text-[12.5px] text-muted">
+                <span class="h-2.5 w-2.5 rounded-full bg-orange-soft"></span>累计学习时长
+              </span>
+              <span class="text-[14px] font-semibold">2h48m</span>
+            </div>
+            <div class="flex items-center justify-between rounded-[13px] bg-white/55 px-4 py-3">
+              <span class="flex items-center gap-2 text-[12.5px] text-muted">
+                <span class="h-2.5 w-2.5 rounded-full bg-brick"></span>练习完成数量
+              </span>
+              <span class="text-[14px] font-semibold">14 个</span>
+            </div>
+            <div class="flex items-center justify-between rounded-[13px] bg-white/55 px-4 py-3">
+              <span class="flex items-center gap-2 text-[12.5px] text-muted">
+                <span class="h-2.5 w-2.5 rounded-full bg-slate"></span>阅读文档页数
+              </span>
+              <span class="text-[14px] font-semibold">27 页</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 图例 -->
+        <div class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-hair pt-4">
+          <span class="flex items-center gap-2 text-[12px] text-muted">
+            <span class="h-2.5 w-2.5 rounded-full bg-orange-soft"></span>累计学习时长
+          </span>
+          <span class="flex items-center gap-2 text-[12px] text-muted">
+            <span class="h-2.5 w-2.5 rounded-full bg-brick"></span>练习完成数量
+          </span>
+          <span class="flex items-center gap-2 text-[12px] text-muted">
+            <span class="h-2.5 w-2.5 rounded-full bg-slate"></span>阅读文档页数
+          </span>
+          <span class="ml-auto text-[12px] text-muted">较昨日 <b class="font-semibold text-orange">+18%</b></span>
+        </div>
+      </section>
+
+      <!-- ---------- 卡片2：学习日历 ---------- -->
+      <section class="rounded-card bg-milk p-6 shadow-soft">
+        <div class="flex items-start justify-between">
+          <h2 class="text-[15px] font-semibold tracking-tight">Learning Schedule</h2>
+          <!-- 月份下拉选择器 -->
+          <div class="flex items-center gap-2 rounded-[11px] bg-cream px-3 py-1.5 text-[12px] font-medium text-ink">
+            2026 年 9 月
+            <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 text-muted" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 星期表头 -->
+        <div class="mt-5 grid grid-cols-7 gap-y-1 text-center text-[11px] font-medium text-muted">
+          <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+        </div>
+
+        <!-- 日期网格：每个日期下方带状态圆点 -->
+        <div class="mt-2 grid grid-cols-7 gap-y-1.5 text-center">
+          <!-- 第 1 周：1 号是周二 -->
+          <div class="py-1.5"><p class="text-[12.5px] text-muted/45">30</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-transparent"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">1</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-orange-soft"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">2</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-orange-soft"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">3</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-slate"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">4</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-orange-soft"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-muted">5</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-black/8"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-muted">6</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-black/8"></span></div>
+
+          <!-- 第 2 周 -->
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">7</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-orange-soft"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">8</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-orange-soft"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">9</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-slate"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">10</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-orange-soft"></span></div>
+          <!-- 今天：暖橙实心圆底 -->
+          <div class="py-1">
+            <p class="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-orange text-[12.5px] font-semibold text-white shadow-softer">11</p>
+            <span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-brick"></span>
+          </div>
+          <div class="py-1.5"><p class="text-[12.5px] text-muted">12</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-black/8"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-muted">13</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-black/8"></span></div>
+
+          <!-- 第 3 周 -->
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">14</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-orange-soft"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">15</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-slate"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">16</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-orange-soft"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">17</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-slate"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">18</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-orange-soft"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-muted">19</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-black/8"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-muted">20</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-black/8"></span></div>
+
+          <!-- 第 4 周 -->
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">21</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-slate"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">22</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-slate"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">23</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-black/8"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">24</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-slate"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-ink">25</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-black/8"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-muted">26</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-black/8"></span></div>
+          <div class="py-1.5"><p class="text-[12.5px] text-muted">27</p><span class="mx-auto mt-1 block h-1.5 w-1.5 rounded-full bg-black/8"></span></div>
+        </div>
+
+        <!-- 图例 -->
+        <div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-hair pt-3.5">
+          <span class="flex items-center gap-2 text-[12px] text-muted">
+            <span class="h-2.5 w-2.5 rounded-full bg-orange-soft"></span>已完成
+          </span>
+          <span class="flex items-center gap-2 text-[12px] text-muted">
+            <span class="h-2.5 w-2.5 rounded-full bg-slate"></span>待学习
+          </span>
+          <span class="flex items-center gap-2 text-[12px] text-muted">
+            <span class="h-2.5 w-2.5 rounded-full bg-black/12"></span>计划任务
+          </span>
+        </div>
+      </section>
+
+      <!-- ---------- 卡片3：今日目标（环形进度） ---------- -->
+      <section class="rounded-card bg-milk p-6 shadow-soft">
+        <div class="flex items-start justify-between">
+          <h2 class="text-[15px] font-semibold tracking-tight">Today's Target</h2>
+          <!-- 修改目标图标 -->
+          <button class="flex h-8 w-8 items-center justify-center rounded-[10px] text-muted transition hover:bg-cream hover:text-orange" aria-label="修改目标">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="mt-4 flex items-center gap-7">
+          <!-- 环形进度圈：68% -->
+          <div class="relative h-[132px] w-[132px] shrink-0">
+            <svg viewBox="0 0 120 120" class="h-full w-full -rotate-90">
+              <defs>
+                <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#F2D188"/>
+                  <stop offset="100%" stop-color="#E89B68"/>
+                </linearGradient>
+              </defs>
+              <!-- 轨道 -->
+              <circle cx="60" cy="60" r="50" fill="none" stroke="#EDE7DD" stroke-width="11"/>
+              <!-- 进度：2πr ≈ 314.16，68% ≈ 213.6 -->
+              <circle cx="60" cy="60" r="50" fill="none" stroke="url(#ringGrad)"
+                      stroke-width="11" stroke-linecap="round"
+                      stroke-dasharray="213.6 314.16"/>
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <p class="text-[28px] font-bold leading-none tracking-tight">68<span class="text-[15px] font-semibold">%</span></p>
+              <p class="mt-1 text-[11px] text-muted">已完成</p>
+            </div>
+          </div>
+
+          <!-- 目标描述 -->
+          <div class="min-w-0 flex-1">
+            <p class="text-[13.5px] font-semibold leading-relaxed">
+              今日目标：完成 <span class="text-orange">PRD 撰写练习</span>，并复盘 1 个 BadCase
+            </p>
+            <p class="mt-2 text-[12.5px] leading-relaxed text-muted">
+              已投入 2h48m，还剩 1 个任务未完成。建议先补完「异常流程」章节，再做一次回归自测。
+            </p>
+            <div class="mt-4 flex items-center gap-4">
+              <span class="text-[12px] text-muted">已完成 <b class="font-semibold text-ink">3</b> / 4 项</span>
+              <span class="h-3.5 w-px bg-hair"></span>
+              <button class="text-[12.5px] font-semibold text-orange">查看任务清单</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- 卡片4：我的练习 ---------- -->
+      <section class="rounded-card bg-milk p-6 shadow-soft">
+        <div class="flex items-start justify-between">
+          <h2 class="text-[15px] font-semibold tracking-tight">My Practices</h2>
+          <button class="flex h-8 items-center gap-1.5 rounded-[10px] bg-slate px-3.5 text-[12px] font-semibold text-white transition hover:bg-[#4A4A50]">
+            <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+            Add New
+          </button>
+        </div>
+
+        <!-- 练习列表 -->
+        <ul class="mt-5 space-y-4">
+
+          <!-- PRD 撰写 -->
+          <li class="flex items-center gap-4">
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between">
+                <p class="text-[13.5px] font-semibold">PRD 撰写</p>
+                <span class="text-[12px] font-semibold text-orange">85%</span>
+              </div>
+              <p class="mt-0.5 text-[11.5px] text-muted">参考资料：合同提取功能需求文档 · 模板 v2</p>
+              <div class="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-cream">
+                <div class="h-full rounded-full bg-gradient-to-r from-orange-soft to-orange" style="width:85%"></div>
+              </div>
+            </div>
+            <button class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-muted transition hover:bg-cream hover:text-ink" aria-label="更多操作">
+              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg>
+            </button>
+          </li>
+
+          <!-- Agent 搭建 -->
+          <li class="flex items-center gap-4">
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between">
+                <p class="text-[13.5px] font-semibold">Agent 搭建</p>
+                <span class="text-[12px] font-semibold text-orange">62%</span>
+              </div>
+              <p class="mt-0.5 text-[11.5px] text-muted">参考资料：统一六步法 · 扣子平台实操指南</p>
+              <div class="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-cream">
+                <div class="h-full rounded-full bg-gradient-to-r from-orange-soft to-orange" style="width:62%"></div>
+              </div>
+            </div>
+            <button class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-muted transition hover:bg-cream hover:text-ink" aria-label="更多操作">
+              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg>
+            </button>
+          </li>
+
+          <!-- API 对接 -->
+          <li class="flex items-center gap-4">
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between">
+                <p class="text-[13.5px] font-semibold">API 对接</p>
+                <span class="text-[12px] font-semibold text-brick">38%</span>
+              </div>
+              <p class="mt-0.5 text-[11.5px] text-muted">参考资料：DeepSeek API 文档 · Token 成本测算表</p>
+              <div class="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-cream">
+                <div class="h-full rounded-full bg-gradient-to-r from-[#E8B49B] to-brick" style="width:38%"></div>
+              </div>
+            </div>
+            <button class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-muted transition hover:bg-cream hover:text-ink" aria-label="更多操作">
+              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg>
+            </button>
+          </li>
+
+          <!-- 需求分析 -->
+          <li class="flex items-center gap-4">
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between">
+                <p class="text-[13.5px] font-semibold">需求分析</p>
+                <span class="text-[12px] font-semibold text-slate">100%</span>
+              </div>
+              <p class="mt-0.5 text-[11.5px] text-muted">参考资料：需求采集四种方法 · 用户访谈记录</p>
+              <div class="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-cream">
+                <div class="h-full rounded-full bg-gradient-to-r from-[#7C7C84] to-slate" style="width:100%"></div>
+              </div>
+            </div>
+            <button class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-muted transition hover:bg-cream hover:text-ink" aria-label="更多操作">
+              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg>
+            </button>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ---------- 卡片5：学习成长计划 ---------- -->
+      <section class="rounded-card bg-milk p-6 shadow-soft">
+        <div class="flex items-start justify-between">
+          <h2 class="text-[15px] font-semibold tracking-tight">Growth Plan</h2>
+          <span class="text-[12px] text-muted">AI 产品经理成长路线 · 第 2 阶段</span>
+        </div>
+
+        <!-- 整体进度数字 -->
+        <div class="mt-5 flex items-end justify-between">
+          <div>
+            <p class="text-[32px] font-bold leading-none tracking-tight">42<span class="text-[16px] font-semibold">%</span></p>
+            <p class="mt-1.5 text-[12px] text-muted">整体学习进度</p>
+          </div>
+          <p class="text-[12px] text-muted">已完成 <b class="font-semibold text-ink">101</b> / 240 个知识点</p>
+        </div>
+
+        <!-- 横向长进度条 -->
+        <div class="relative mt-6">
+          <!-- 轨道 -->
+          <div class="h-3 w-full overflow-hidden rounded-full bg-cream">
+            <div class="h-full rounded-full bg-gradient-to-r from-orange-soft via-orange to-brick" style="width:42%"></div>
+          </div>
+
+          <!-- 阶段刻度点：0% / 25% / 50% / 75% / 100% -->
+          <div class="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2">
+            <span class="absolute left-0 h-3 w-[2px] rounded-full bg-white/70"></span>
+            <span class="absolute left-1/4 h-3 w-[2px] rounded-full bg-white/70"></span>
+            <span class="absolute left-1/2 h-3 w-[2px] rounded-full bg-white/70"></span>
+            <span class="absolute left-3/4 h-3 w-[2px] rounded-full bg-white/70"></span>
+          </div>
+
+          <!-- 当前位置标记：42% -->
+          <div class="absolute -top-[7px] left-[42%] -translate-x-1/2">
+            <div class="h-0 w-0 border-x-[6px] border-t-[7px] border-x-transparent border-t-orange"></div>
+          </div>
+
+          <!-- 两端标注 -->
+          <div class="mt-3 flex items-center justify-between text-[11.5px] text-muted">
+            <span class="font-medium">起点 · 认知启蒙</span>
+            <span>产品思维</span>
+            <span>设计实战</span>
+            <span>技术拓展</span>
+            <span class="font-medium">终点 · 可面试</span>
+          </div>
+        </div>
+
+        <!-- 阶段进度明细 -->
+        <div class="mt-5 grid grid-cols-4 gap-3 border-t border-hair pt-4">
+          <div>
+            <p class="text-[11.5px] text-muted">认知启蒙</p>
+            <p class="mt-0.5 text-[13px] font-semibold text-orange">100%</p>
+          </div>
+          <div>
+            <p class="text-[11.5px] text-muted">产品思维</p>
+            <p class="mt-0.5 text-[13px] font-semibold text-orange">68%</p>
+          </div>
+          <div>
+            <p class="text-[11.5px] text-muted">设计实战</p>
+            <p class="mt-0.5 text-[13px] font-semibold text-ink">20%</p>
+          </div>
+          <div>
+            <p class="text-[11.5px] text-muted">技术拓展</p>
+            <p class="mt-0.5 text-[13px] font-semibold text-ink">0%</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- 卡片6：AI 学习助手 ---------- -->
+      <section class="rounded-card bg-milk p-6 shadow-soft">
+        <div class="flex items-start justify-between">
+          <h2 class="text-[15px] font-semibold tracking-tight">AI Tutor</h2>
+          <span class="flex items-center gap-1.5 rounded-full bg-orange/12 px-2.5 py-1 text-[11px] font-semibold text-orange">
+            <span class="h-1.5 w-1.5 rounded-full bg-orange"></span>在线
+          </span>
+        </div>
+
+        <!-- 对话快捷入口 -->
+        <div class="mt-4 space-y-2.5">
+          <div class="rounded-[14px] bg-cream px-4 py-3.5">
+            <p class="text-[13px] leading-relaxed text-ink">
+              你好，美玲。今天想聊点 AI 产品相关的什么？我可以帮你拆概念、改 PRD、也能陪你模拟面试。
+            </p>
+          </div>
+
+          <!-- 快捷提问 -->
+          <div class="flex flex-wrap gap-2">
+            <button class="rounded-full bg-cream px-3.5 py-2 text-[12px] font-medium text-ink transition hover:bg-orange/12 hover:text-orange">
+              RAG 和微调怎么选？
+            </button>
+            <button class="rounded-full bg-cream px-3.5 py-2 text-[12px] font-medium text-ink transition hover:bg-orange/12 hover:text-orange">
+              帮我看看这份 PRD
+            </button>
+            <button class="rounded-full bg-cream px-3.5 py-2 text-[12px] font-medium text-ink transition hover:bg-orange/12 hover:text-orange">
+              模拟一次面试
+            </button>
+            <button class="rounded-full bg-cream px-3.5 py-2 text-[12px] font-medium text-ink transition hover:bg-orange/12 hover:text-orange">
+              今天的 BadCase 怎么复盘
+            </button>
+          </div>
+        </div>
+
+        <!-- 输入区 -->
+        <div class="mt-5 flex items-center gap-3 rounded-[14px] border border-hair bg-white/60 px-4 py-3">
+          <input type="text" placeholder="输入你的学习问题…"
+                 class="w-full bg-transparent text-[13px] text-ink placeholder:text-muted focus:outline-none">
+          <button class="flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px] bg-slate text-white transition hover:bg-[#4A4A50]" aria-label="发送">
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h13M13 6l6 6-6 6"/>
+            </svg>
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- 页脚留白 -->
+    <div class="h-1"></div>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#F4F1EB">
+<title>AIPM 学习工作台</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="theme.css">
+</head>
+<body data-theme="cream">
+
+<header class="topbar">
+  <button class="burger" id="btnMenu" type="button" aria-label="展开导航">☰</button>
+  <div class="topbar-title">AIPM 工作台</div>
+  <span class="codename">代号: <b id="codeName">Melodia</b></span>
+</header>
+
+<div class="side-mask" id="sideMask"></div>
+
+<div class="app">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="4"/></svg>
+      </div>
+      <span class="brand-name">AIPM工作台</span>
+    </div>
+
+    <nav class="nav" id="nav">
+      <button class="nav-item on" data-page="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/></svg>
+        <span>仪表盘主页</span>
+      </button>
+      <button class="nav-item" data-page="knowledge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 016.5 3H19v15H6.5A2.5 2.5 0 004 20.5z"/><path d="M8 7h7M8 11h5"/></svg>
+        <span>知识库文档</span>
+      </button>
+      <button class="nav-item" data-page="practice">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5"/><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2z"/><path d="M8 13h8M8 17h5"/></svg>
+        <span>刷题中心</span>
+      </button>
+      <button class="nav-item" data-page="lab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></svg>
+        <span>API实验</span>
+      </button>
+      <button class="nav-item" data-page="calendar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <span>任务日历</span>
+      </button>
+      <button class="nav-item" data-page="portfolio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8 7V5.5A2.5 2.5 0 0110.5 3h3A2.5 2.5 0 0116 5.5V7"/></svg>
+        <span>项目作品集</span>
+      </button>
+      <button class="nav-item" data-page="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-2.9 1.2 2 2 0 11-4 0 1.7 1.7 0 00-2.9-1.2l-.1.1a2 2 0 11-2.8-2.8l.1-.1A1.7 1.7 0 003 15a2 2 0 010-4 1.7 1.7 0 001.2-2.9l-.1-.1a2 2 0 112.8-2.8l.1.1A1.7 1.7 0 0010 4.6a2 2 0 014 0 1.7 1.7 0 002.9 1.2l.1-.1a2 2 0 112.8 2.8l-.1.1A1.7 1.7 0 0021 11a2 2 0 010 4z"/></svg>
+        <span>设置</span>
+      </button>
+    </nav>
+
+    <div class="side-foot">
+      <div class="mini-stat">
+        <div class="mini-row"><span>今日事件</span><b id="miniEvents">–</b></div>
+        <div class="mini-row"><span>连续打卡</span><b id="miniStreak">–</b></div>
+        <div class="mini-row"><span>整体进度</span><b id="miniProgress">–</b></div>
+      </div>
+      <div class="user-card">
+        <div class="user-av">美</div>
+        <div class="user-info">
+          <p class="user-name">美玲</p>
+          <p class="user-sub">转行 AI 产品经理</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main" id="main">
+
+    <!-- ============ 仪表盘 ============ -->
+    <section class="page on" id="page-dashboard">
+      <div class="page-head">
+        <div>
+          <h1 class="greet">Hi！美玲</h1>
+          <p class="greet-sub">今天继续 AI 产品学习</p>
+        </div>
+        <div class="head-actions">
+          <div class="searchbox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
+            <input type="text" id="globalSearch" placeholder="搜索课程、案例、练习">
+          </div>
+          <button class="btn-dark" id="btnUpgrade">Upgrade</button>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <section class="card col-span-2">
+          <div class="card-head">
+            <h2 class="card-title">Learning Results for Today</h2>
+            <span class="pill" id="ovDate">今日</span>
+          </div>
+          <div class="overview">
+            <div class="bubbles" role="img" aria-label="今日学习总览气泡图">
+              <div class="bubble bubble-a"><div><p class="bub-lb">学习时长</p><p class="bub-v" id="ovMinutes">–</p></div></div>
+              <div class="bubble bubble-b"><div><p class="bub-v" id="ovEvents">–</p><p class="bub-lb">事件</p></div></div>
+              <div class="bubble bubble-c"><div><p class="bub-v" id="ovDocs">–</p><p class="bub-lb">知识点</p></div></div>
+              <span class="bub-dot d1"></span><span class="bub-dot d2"></span><span class="bub-dot d3"></span>
+            </div>
+            <div class="ov-summary">
+              <div class="ov-row"><span><i class="dot dot-y"></i>今日学习事件</span><b id="ovEv2">–</b></div>
+              <div class="ov-row"><span><i class="dot dot-b"></i>今日估算时长</span><b id="ovMin2">–</b></div>
+              <div class="ov-row"><span><i class="dot dot-s"></i>累计已学知识点</span><b id="ovLearned">–</b></div>
+              <div class="ov-row"><span><i class="dot dot-y"></i>累计笔记</span><b id="ovNoted">–</b></div>
+              <div class="ov-row"><span><i class="dot dot-s"></i>累计错题</span><b id="ovWrong">–</b></div>
+              <div class="ov-note" id="ovNote">时长为估算值</div>
+            </div>
+          </div>
+          <div class="legend">
+            <span><i class="dot dot-y"></i>学习时长</span>
+            <span><i class="dot dot-b"></i>学习事件</span>
+            <span><i class="dot dot-s"></i>涉及知识点</span>
+            <span class="legend-right" id="ovStreak"></span>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <h2 class="card-title">Learning Schedule</h2>
+            <span class="pill pill-plain">近 14 天</span>
+          </div>
+          <div class="mini-cal" id="miniCal"></div>
+          <div class="legend legend-bordered">
+            <span><i class="dot dot-y"></i>有学习记录</span>
+            <span><i class="dot dot-e"></i>无记录</span>
+            <span class="legend-right" id="calTotal">–</span>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <h2 class="card-title">Today's Target</h2>
+            <button class="icon-btn" id="btnEditGoal" title="修改目标" aria-label="修改目标">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>
+            </button>
+          </div>
+          <div class="goal-wrap">
+            <div class="ring">
+              <svg viewBox="0 0 120 120">
+                <defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F2D188"/><stop offset="100%" stop-color="#E89B68"/></linearGradient></defs>
+                <circle cx="60" cy="60" r="50" fill="none" stroke="#EDE7DD" stroke-width="11"/>
+                <circle id="ringArc" cx="60" cy="60" r="50" fill="none" stroke="url(#ringGrad)" stroke-width="11" stroke-linecap="round" stroke-dasharray="0 314.16"/>
+              </svg>
+              <div class="ring-center">
+                <p class="ring-pct"><span id="goalPct">0</span><span class="ring-pct-u">%</span></p>
+                <p class="ring-lb">已完成</p>
+              </div>
+            </div>
+            <div class="goal-body">
+              <p class="goal-text" id="goalText">还没有设置今日目标</p>
+              <p class="goal-hint" id="goalHint">点右上角铅笔图标，写今天想完成什么</p>
+              <div class="goal-meta">
+                <span id="goalCount">已完成 0 项</span>
+                <span class="vline"></span>
+                <button class="link-btn" id="btnGoalPreset">用推荐目标</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <h2 class="card-title">My Practices</h2>
+            <button class="btn-dark btn-sm" id="btnGoPractice">去练习</button>
+          </div>
+          <ul class="practice-list" id="practiceList"></ul>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <h2 class="card-title">Growth Plan</h2>
+            <span class="pill pill-plain">认知启蒙 → 技术拓展</span>
+          </div>
+          <div class="plan-top">
+            <div>
+              <p class="plan-pct"><span id="planPct">0</span><span class="plan-pct-u">%</span></p>
+              <p class="plan-lb">整体学习进度</p>
+            </div>
+            <p class="plan-right" id="planRight">–</p>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar-track"><div class="bar-fill" id="planBar" style="width:0%"></div></div>
+          </div>
+          <div class="plan-stages" id="planStages"></div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <h2 class="card-title">AI Tutor</h2>
+            <span class="pill pill-live"><i class="dot dot-y"></i>在线</span>
+          </div>
+          <div class="tutor-body" id="tutorBody">
+            <div class="tutor-msg bot">你好，美玲。今天想聊点 AI 产品相关的什么？我可以帮你拆概念、改 PRD，也能陪你模拟面试。</div>
+          </div>
+          <div class="chips" id="tutorChips">
+            <button class="chip" data-q="RAG 和微调怎么选？">RAG 和微调怎么选？</button>
+            <button class="chip" data-q="帮我看看 PRD 该写哪些内容">帮我看看 PRD</button>
+            <button class="chip" data-q="模拟一次 AI 产品经理面试">模拟一次面试</button>
+            <button class="chip" data-q="BadCase 该怎么复盘？">BadCase 复盘</button>
+          </div>
+          <div class="tutor-input">
+            <input type="text" id="tutorInput" placeholder="输入你的学习问题…">
+            <button class="send-btn" id="btnTutorSend" aria-label="发送">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- ============ 知识库文档 ============ -->
+    <section class="page" id="page-knowledge">
+      <div class="kb-layout">
+        <div class="kb-side" id="kbSide">
+          <div class="kb-side-head">
+            <h2>知识树</h2>
+            <div class="sub" id="sbSub">加载中…</div>
+          </div>
+          <div class="kb-search"><input id="treeSearch" type="text" placeholder="搜索知识点…"></div>
+          <div class="tree" id="tree"></div>
+        </div>
+        <div class="kb-main" id="kbMain">
+          <div class="empty">👈 从左侧知识树里点开一个知识点<br>开始学习</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 刷题中心 ============ -->
+    <section class="page" id="page-practice">
+      <div class="page-head">
+        <div>
+          <h1 class="greet">刷题中心</h1>
+          <p class="greet-sub">客观题练判断，主观题练写法：练习 → 反馈 → 迭代，把规范写法练成肌肉记忆</p>
+        </div>
+      </div>
+      <!-- 一行标签栏，三个模式并列：客观题 / 主观题 / 错题本 -->
+      <div class="seg" id="practiceSeg">
+        <button class="seg-item on" data-tab="quiz">客观题</button>
+        <button class="seg-item" data-tab="subj">主观题</button>
+        <button class="seg-item" data-tab="wrong">错题本</button>
+      </div>
+
+      <!-- ========== 客观题：原有选择题，结构与逻辑完全保留 ========== -->
+      <div id="quizPane">
+        <div class="card">
+          <div class="row between wraprow">
+            <div class="row">
+              <span class="field-lb">知识点</span>
+              <select id="quizPick" class="control"></select>
+            </div>
+            <div class="row">
+              <button class="btn-line" id="btnGen">生成 3 道题</button>
+              <button class="btn-dark" id="btnSubmit">提交答案</button>
+            </div>
+          </div>
+          <p class="tip" id="quizTip"></p>
+        </div>
+        <div id="quizBody"></div>
+        <div id="quizResult"></div>
+      </div>
+
+      <!-- ========== 主观题：练习 → 反馈 → 迭代 ========== -->
+      <div id="subjectiveWrap" class="hidden">
+
+        <div class="steps" id="subjSteps">
+          <div class="step on" data-step="1"><span class="step-n">1</span><span>选方向与知识点</span></div>
+          <div class="step" data-step="2"><span class="step-n">2</span><span>生成练习题</span></div>
+          <div class="step" data-step="3"><span class="step-n">3</span><span>写我的思路</span></div>
+          <div class="step" data-step="4"><span class="step-n">4</span><span>看反馈再迭代</span></div>
+        </div>
+
+        <!-- 第一步 -->
+        <section class="card" style="margin-bottom:16px">
+          <div class="card-head">
+            <h2 class="card-title">第一步 · 选择练习方向</h2>
+            <span class="pill pill-plain" id="subjDirTag">PRD 撰写类</span>
+          </div>
+          <div class="chips" id="subjDir">
+            <button class="chip on" data-dir="prd" type="button">PRD 撰写类</button>
+            <button class="chip" data-dir="prompt" type="button">提示词优化类</button>
+          </div>
+          <p class="tip" id="subjDirHint">围绕产品知识点出真实业务场景题，练的是「一份 PRD 该按什么结构把问题讲清楚」。</p>
+          <div class="row between wraprow" style="margin-top:14px">
+            <div class="row">
+              <span class="field-lb">关联知识点</span>
+              <select id="subjDoc" class="control subj-doc"></select>
+            </div>
+            <label class="toggle"><input type="checkbox" id="subjWeb" checked> 联网搜真实行业案例作为题目背景</label>
+          </div>
+        </section>
+
+        <!-- 第二步 -->
+        <section class="card" style="margin-bottom:16px">
+          <div class="card-head">
+            <h2 class="card-title">第二步 · 生成练习题</h2>
+            <div class="row">
+              <button class="btn-line btn-sm" id="btnSubjCase">只看真实案例</button>
+              <button class="btn-dark btn-sm" id="btnSubjGen">生成练习题</button>
+            </div>
+          </div>
+          <div id="subjQuestion"><div class="empty">还没有题目。<br>选好方向与知识点，点右上角「生成练习题」</div></div>
+          <div id="subjCases"></div>
+        </section>
+
+        <!-- 第三步 -->
+        <section class="card" style="margin-bottom:16px">
+          <div class="card-head">
+            <h2 class="card-title">第三步 · 写下你的思路</h2>
+            <span class="pill pill-plain">写框架就行，不用写全文</span>
+          </div>
+          <textarea class="note" id="subjIdea" placeholder="例如：&#10;1. 先讲清楚这个需求要解决谁的什么问题&#10;2. 目标怎么量化（我打算用…）&#10;3. 方案分几步做，第一期做什么&#10;4. 风险 / 不上线的条件"></textarea>
+          <div class="note-bar">
+            <button class="btn-dark" id="btnSubjSubmit">提交，让 AI 给反馈</button>
+            <button class="btn-line btn-sm" id="btnSubjClear">清空重写</button>
+            <span class="saved" id="subjTip"></span>
+          </div>
+        </section>
+
+        <!-- 第四步 -->
+        <section class="card" style="margin-bottom:16px">
+          <div class="card-head">
+            <h2 class="card-title">第四步 · 反馈与迭代</h2>
+            <span class="web-badge" id="subjWebHint">等待提交思路</span>
+          </div>
+          <div id="subjFeedback">
+            <div class="empty">提交思路后，这里会给出三部分反馈：<br>① 优化后的规范完整版本　② 你思路里缺少的核心要素　③ 标准结构拆解与修改理由</div>
+          </div>
+          <div class="row" id="subjIterRow" style="margin-top:14px;display:none">
+            <span class="tip" style="margin:0">想再练一轮？改完上面的思路再点一次「提交」，AI 会对比上一版告诉你进步在哪。</span>
+          </div>
+        </section>
+
+        <!-- 练习历史 -->
+        <section class="card">
+          <div class="card-head">
+            <h2 class="card-title">练习历史</h2>
+            <div class="row">
+              <span class="pill pill-plain" id="subjHistCount">–</span>
+              <button class="btn-line btn-sm" id="btnSubjHist">刷新</button>
+            </div>
+          </div>
+          <div id="subjHistory"><div class="empty">加载中…</div></div>
+        </section>
+
+      </div>
+
+      <!-- ========== 错题本：原有功能完全保留 ========== -->
+      <div id="wrongPane" class="hidden"></div>
+    </section>
+
+    <!-- ============ API实验 ============ -->
+    <section class="page" id="page-lab">
+      <div class="page-head">
+        <div>
+          <h1 class="greet">API 实验</h1>
+          <p class="greet-sub">在服务端真实发起一次 HTTP 请求，看状态码、响应头和返回体</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <section class="card">
+          <div class="card-head"><h2 class="card-title">请求配置</h2></div>
+          <div class="field">
+            <label>请求方法</label>
+            <select id="labMethod" class="control"><option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option></select>
+          </div>
+          <div class="field">
+            <label>接口地址</label>
+            <input type="text" id="labUrl" class="control" placeholder="https://api.deepseek.com/models">
+          </div>
+          <div class="field">
+            <label>请求头（可选，一行一个 Key: Value）</label>
+            <textarea id="labHeaders" class="control" rows="3" placeholder="Accept: application/json"></textarea>
+          </div>
+          <div class="field">
+            <label>请求体（可选，JSON）</label>
+            <textarea id="labBody" class="control" rows="4" placeholder='{"model":"deepseek-chat"}'></textarea>
+          </div>
+          <div class="field">
+            <label>API Key（可选，作为 Bearer 头发送，不落盘）</label>
+            <input type="text" id="labKey" class="control" placeholder="sk-...">
+          </div>
+          <label class="toggle"><input type="checkbox" id="labPrivate"> 允许请求内网 / 本机地址</label>
+          <div class="row" style="margin-top:14px">
+            <button class="btn-dark" id="btnLabSend">发送请求</button>
+            <button class="btn-line btn-sm" id="btnLabHealth">试本站 /api/health</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <h2 class="card-title">响应结果</h2>
+            <span class="pill pill-plain" id="labStatus">未发送</span>
+          </div>
+          <div id="labResult"><div class="empty">还没有发起请求</div></div>
+        </section>
+
+        <section class="card col-span-2">
+          <div class="card-head"><h2 class="card-title">你可以试试</h2></div>
+          <div class="chips" id="labSamples">
+            <button class="chip" data-url="/api/health">本站健康检查</button>
+            <button class="chip" data-url="/api/stats">本站仪表盘数据</button>
+            <button class="chip" data-url="/api/tree">本站知识树</button>
+            <button class="chip" data-url="/api/search?q=RAG">本站检索 RAG</button>
+          </div>
+          <p class="tip">这些是相对路径，指向本工作台自己的接口，可以看到一个真实 JSON 响应的完整结构。</p>
+        </section>
+      </div>
+    </section>
+
+    <!-- ============ 任务日历 ============ -->
+    <section class="page" id="page-calendar">
+      <div class="page-head">
+        <div>
+          <h1 class="greet">任务日历</h1>
+          <p class="greet-sub">学习打卡记录与每日任务安排</p>
+        </div>
+        <div class="head-actions">
+          <select id="calRangeSel" class="control">
+            <option value="30">近 30 天</option>
+            <option value="60" selected>近 60 天</option>
+            <option value="120">近 120 天</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-2">
+        <section class="card col-span-2">
+          <div class="card-head">
+            <h2 class="card-title">打卡日历</h2>
+            <span class="pill pill-plain" id="calStat">–</span>
+          </div>
+          <div class="cal-grid-wrap"><div class="cal-grid" id="calGrid"></div></div>
+          <div class="legend legend-bordered">
+            <span><i class="dot dot-e"></i>无记录</span>
+            <span><i class="dot dot-light"></i>1-2 个事件</span>
+            <span><i class="dot dot-mid"></i>3-5 个事件</span>
+            <span><i class="dot dot-y"></i>6 个以上</span>
+          </div>
+        </section>
+        <section class="card col-span-2">
+          <div class="card-head"><h2 class="card-title">最近的学习记录</h2></div>
+          <div id="calList"><div class="empty">还没有打卡记录。去知识库标几个「已学」或写条笔记，这里就有数据了</div></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- ============ 项目作品集 ============ -->
+    <section class="page" id="page-portfolio">
+      <div class="page-head">
+        <div>
+          <h1 class="greet">项目作品集</h1>
+          <p class="greet-sub">把练习和作品攒起来，面试时要拿得出手</p>
+        </div>
+        <div class="head-actions">
+          <button class="btn-dark" id="btnAddNew">＋ 新增作品</button>
+        </div>
+      </div>
+      <div id="portfolioList"></div>
+    </section>
+
+    <!-- ============ 设置 ============ -->
+    <section class="page" id="page-settings">
+      <div class="page-head">
+        <div>
+          <h1 class="greet">设置</h1>
+          <p class="greet-sub">联网搜索、AI 补全、学习代号</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <section class="card col-span-2">
+          <div class="card-head"><h2 class="card-title">联网搜索</h2></div>
+          <p class="card-desc">配好搜索 Key 之后，「AI 答疑」和「AI 补全」会<b>自己判断</b>要不要联网，不需要每次手动勾选。</p>
+          <div class="field">
+            <label>搜索服务商</label>
+            <select id="setProvider" class="control"><option value="bocha">博查 BochaAI（推荐，中文友好）</option></select>
+            <div class="tip">注册 <a href="https://open.bochaai.com" target="_blank" rel="noreferrer">open.bochaai.com</a>：微信扫码注册 → 「资源包」领免费额度 → 首页「兑换」输口令 <b>博查搜索</b> 再领一份 → 「API KEY 管理」创建密钥（只显示一次，先存好）。</div>
+          </div>
+          <div class="field">
+            <label>搜索 API Key</label>
+            <input type="text" id="setKey" class="control" placeholder="sk-...">
+            <div class="tip" id="setKeyState">密钥只保存在本机 data/settings.json，不会上传到任何第三方。</div>
+          </div>
+          <div class="field">
+            <label>什么时候联网</label>
+            <label class="opt" id="optAuto"><input type="radio" name="setWebMode" value="auto"><span><b>自动判断（推荐）</b><br><span class="muted">先看本地知识库够不够；问题涉及时效信息（价格、版本、最新动态）或本地答不好时，自动上网补。</span></span></label>
+            <label class="opt" id="optAlways"><input type="radio" name="setWebMode" value="always"><span><b>每次都联网</b><br><span class="muted">问什么都先搜一遍再答。信息最新，但更慢、更依赖网络。</span></span></label>
+            <label class="opt" id="optNever"><input type="radio" name="setWebMode" value="never"><span><b>从不联网</b><br><span class="muted">只用本地知识库回答。</span></span></label>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-head"><h2 class="card-title">笔记与 AI</h2></div>
+          <label class="toggle"><input type="checkbox" id="setAutoEnrich"> 写完笔记后自动让 AI 补全</label>
+          <p class="tip">停笔几秒后会自己扩写成一条可沉淀的知识，可以在「设置 → 新知识」相关接口里查看。</p>
+        </section>
+
+        <section class="card">
+          <div class="card-head"><h2 class="card-title">学习代号</h2></div>
+          <div class="field">
+            <label>给自己起个代号</label>
+            <input type="text" id="setCodeName" class="control" placeholder="Melodia">
+            <div class="tip">只保存在这台浏览器里，用于顶部显示。</div>
+          </div>
+        </section>
+
+        <section class="card col-span-2">
+          <div class="row">
+            <button class="btn-dark" id="setSave">保存设置</button>
+            <span class="saved" id="saveTip"></span>
+          </div>
+        </section>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
+
+<script src="app.js"></script>
+</body>
+</html>

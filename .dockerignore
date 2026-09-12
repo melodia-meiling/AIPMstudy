@@ -1,0 +1,75 @@
+# =============================================================================
+# AIPM 学习工作台 · Docker 构建上下文忽略规则
+# -----------------------------------------------------------------------------
+# 作用：让 docker build 时不要把无关文件塞进构建上下文（影响构建速度与体积）
+# 注意：这里**不**忽略 data/ —— 知识库与向量索引是应用资产，要打进镜像
+# =============================================================================
+
+# ---- 依赖与本地产物 ----
+node_modules
+npm-debug.log*
+.pnpm-store
+.yarn
+
+# ---- Git / 编辑器 ----
+.git
+.gitignore
+.gitattributes
+.vscode
+.idea
+*.swp
+.DS_Store
+Thumbs.db
+
+# ---- 密钥与本地配置（绝不进镜像）----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+credentials.json
+
+# ---- 运行期个人数据（不进镜像，容器里重新生成）----
+# 与 .gitignore 保持同一份清单：服务启动会自动创建这 10 个文件
+data/notes.json
+data/learned.json
+data/enrich.json
+data/newknowledge.json
+data/quiz.json
+data/wrong.json
+data/settings.json
+data/goals.json
+data/portfolio.json
+data/activity.json
+
+# ---- 备份 / 临时 / 日志 ----
+data/*.bak*
+data/*.tmp
+data/data-new
+data/backup-*
+data/*.log
+*.bak
+*.bak-*
+*.tmp
+
+# ---- 本地模型权重 ----
+# 不复制进上下文：镜像里由 `RUN node fetch_model.js` 在构建阶段下载。
+# 若你的网络环境不便下载，把这行注释掉，让本地的 models/ 直接进镜像
+# （本地构建会更快，但要求本机已有权重）。
+models
+
+# ---- 文档与工具（镜像里不需要）----
+README.md
+tools
+*_test*
+_recon_*.js
+_apply_*.js
+_rebuild_index.cjs
+_smoke.cjs
+build_kb.js
+build_embeddings.js
+enrich_kb.js
+patch_book_categories.js
+inject_responsive.js
+start.bat

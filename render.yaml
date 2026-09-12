@@ -1,0 +1,58 @@
+# =============================================================================
+# AIPM 学习工作台 · Render 一键部署配置
+# -----------------------------------------------------------------------------
+# 用法（两种都行）：
+#   A. Blueprint 方式（推荐）：把仓库推到 GitHub 后，在 Render 选
+#      New + → Blueprint，选中本仓库，Render 会自动读这个文件并创建服务。
+#   B. 手动方式：New + → Web Service，填下面这些值。
+#
+# 关键点：
+#   · runtime 用 docker（仓库里有 Dockerfile），环境一致性最好
+#   · 模型权重已随镜像打包，部署后无需再下载，离线检索开箱即用
+#   · DEEPSEEK_API_KEY 必须自己填（sync: false 表示不写进仓库）
+# =============================================================================
+
+services:
+  - type: web
+    name: aipm-study-workbench
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free                 # 免费层；想避免冷启动可改 starter
+    region: singapore          # 离国内较近；也可用 oregon / frankfurt
+    healthCheckPath: /api/health
+    autoDeploy: true           # 推代码自动重新部署
+    envVars:
+      # ---- 必填：你自己的 DeepSeek 密钥 ----
+      # 在 Render 控制台 Environment 里填，不要写进仓库
+      - key: DEEPSEEK_API_KEY
+        sync: false
+
+      # ---- 服务与模型 ----
+      - key: DEEPSEEK_MODEL
+        value: deepseek-chat
+      - key: DEEPSEEK_BASE
+        value: https://api.deepseek.com
+      - key: NODE_ENV
+        value: production
+      # 容器内必须绑 0.0.0.0，否则 Render 的探针访问不到（会显示部署成功但打不开）
+      - key: HOST
+        value: 0.0.0.0
+
+      # ---- 检索 ----
+      # 1 = 用镜像内 bge-base-zh-v1.5 真实编码查询（检索质量最好，需约 250MB 内存）
+      # 0 = 关键词近似向量（省内存，但 top1 命中率会下降）
+      - key: ENABLE_QUERY_MODEL
+        value: "1"
+      # 模型权重已随镜像打包，运行时禁止再去 HuggingFace 下载
+      - key: HF_HUB_OFFLINE
+        value: "1"
+
+      # ---- 可选：联网搜索（不填则问答只用本地知识库 + 大模型自身知识）----
+      # 去 https://open.bochaai.com 申请后填进来
+      # - key: SEARCH_API_KEY
+      #   sync: false
+      # - key: SEARCH_PROVIDER
+      #   value: bocha
+      # auto=系统自己判断要不要联网 / always=每次都联网 / never=从不联网
+      - key: WEB_MODE
+        value: auto
