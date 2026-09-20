@@ -1,3 +1,4 @@
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/melodia-meiling/AIPMstudy)
 # AIPM 学习工作台 · MVP
 
 最小可运行版本：**单文件后端 + 单页前端 + 本地向量混合检索 + DeepSeek 对话**。
